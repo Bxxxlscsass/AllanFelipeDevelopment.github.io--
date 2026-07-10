@@ -10,210 +10,355 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f4f4f9; 
             padding: 20px; 
-            
         }
+        
+        /* Menu de Navegação */
         nav 
         {
             display: flex; 
-            gap: 10px; 
-            margin-bottom: 20px; 
+            gap: 12px; 
+            margin-bottom: 25px; 
             justify-content: center; 
+            flex-wrap: wrap; /* Melhora a visualização em telas de celular */
         }
-        button 
+        
+        /* Estilização Moderna dos Botões */
+        nav button 
         { 
-            padding: 10px 20px; 
+            padding: 12px 24px; 
             cursor: pointer; 
-            border: none; 
-            border-radius: 5px; 
-            background: #0056b3; 
-            color: white; 
-            transition: 0.3s; 
+            border: 2px solid #0056b3; 
+            border-radius: 8px; 
+            background: transparent; 
+            color: #0056b3; 
+            font-weight: 600;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s ease; 
         }
-        button:hover 
+        
+        /* [ALTERAÇÃO] Efeito de Hover: Aplica cor cinza antes de clicar */
+        nav button:hover 
         { 
-            background: #0056b3; 
-            transform: scale(1.05); 
+            background: #e2e8f0; /* Fundo cinza moderno */
+            color: #334155;      /* Texto cinza escuro */
+            border-color: #94a3b8;
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+
+        /* Classe de Aba Ativa (Destaca o botão da página atual e anula o cinza) */
+        nav button.btn-ativo 
+        {
+            background: #0056b3;
+            color: white;
+            border-color: #0056b3;
+            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+        }
+        
+        nav button.btn-ativo:hover {
+            background: #0056b3;
+            color: white;
+            border-color: #0056b3;
+            transform: none;
+            box-shadow: 0 4px 12px rgba(0, 86, 179, 0.3);
+        }
+
+        /* Botão de Enviar Requisição */
+        .btn-enviar {
+            width: 100%;
+            padding: 14px;
+            background: #f59e0b; 
+            color: #0f172a;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(245, 158, 11, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .btn-enviar:hover {
+            background: #d97706;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3);
+        }
+        
+        /* Conteúdo das Abas */
         .aba-conteudo 
         { 
             display: none; 
             background: white; 
-            padding: 20px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            padding: 25px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            max-width: 800px;
+            margin: 0 auto;
         }
+        
         .ativa 
         { 
             display: block; 
-            animation: fadeIn 0.5s; 
+            animation: fadeIn 0.4s ease-out; 
         }
+        
         @keyframes fadeIn 
         { 
-            from { opacity: 0; } to { opacity: 1; } 
+            from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } 
         }
+        
         input, textarea { 
             width: 100%; 
-            padding: 8px; 
+            padding: 12px; 
             margin: 10px 0; 
-            border: 1px solid #ccc; 
-            border-radius: 4px; 
-        }
-        .error 
-        { 
-            border: 2px solid red; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 6px; 
+            background: #f8fafc;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
         }
 
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #0056b3;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.15);
+        }
+        
+        /* Estado Fixo de Erro */
+        .error 
+        { 
+            border: 2px solid #ef4444 !important; 
+            background: #fef2f2 !important;
+        }
+
+        /* Animação de pulso vermelho para erros no buffer de entrada */
+        .campo-piscar {
+            animation: piscarVermelho 0.4s ease-in-out 2; 
+        }
+
+        @keyframes piscarVermelho {
+            0%, 100% { border-color: #cbd5e1; background-color: #f8fafc; }
+            50% { border-color: #ef4444; background-color: #fef2f2; box-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
+        }
+
+        /* Links do Portfólio */
+        .link-repositorio {
+            display: inline-block;
+            margin-bottom: 12px;
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .link-repositorio:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
 
+    <!-- Menu de Navegação Superior -->
     <nav>
-        <button onclick="abrirAba('sobre')">Sobre Mim</button>
-        <button onclick="abrirAba('formacao')">Formação</button>
-        <button onclick="abrirAba('portfolio')">Portfólio</button>
-        <button onclick="abrirAba('contato')">Contato</button>
+        <button id="btn-sobre" class="btn-ativo" onclick="abrirAba('sobre')">Sobre Mim</button>
+        <button id="btn-formacao" onclick="abrirAba('formacao')">Formação</button>
+        <button id="btn-portfolio" onclick="abrirAba('portfolio')">Portfólio</button>
+        <button id="btn-contato" onclick="abrirAba('contato')">Contato</button>
     </nav>
 
-    <div id="container-barra" 
-        style="display: none; width: 100%; background: #ddd; border-radius: 5px; margin-top: 10px;">
-    <div id="progresso" style="width: 0%; height: 20px; background: #0056b3; border-radius: 5px; text-align: center; color: white; font-size: 12px; line-height: 20px;">
-        0%
+    <!-- Barra de carregamento simulando latência de infraestrutura -->
+    <div id="container-barra" style="display: none; width: 100%; max-width: 800px; background: #e2e8f0; border-radius: 6px; margin: 15px auto;">
+        <div id="progresso" style="width: 0%; height: 24px; background: #0056b3; border-radius: 6px; text-align: center; color: white; font-size: 13px; font-weight: bold; line-height: 24px; transition: width 0.1s linear;">
+            0%
+        </div>
     </div>
 
-</div>
-
-
-    <!-- sobre mim -->
+    <!-- ABA: SOBRE MIM -->
     <div id="sobre" class="aba-conteudo ativa">
         <h2>Sobre Mim</h2>
-        <p>Olá, Sou <strong>Allan Felipe </strong>, acadêmico de <strong>Ciência da Computação</strong> pela Uninter e entusiasta de infraestrutura tecnológica.</p>
-        <p>Minha jornada na TI é movida pela curiosidade de entender como o software interage com hardware. Atualmente, foco meus estudos na programação, desenvolvimento de <strong>sistemas robustos em Java</strong> e 
-        na análise técnica de <strong>suporte em ambientes de missão crítica.</strong>
-        Tenho facilidade em diagnosticar falhas em <strong>redes IP</strong> e arquiteturas de <strong> sistemas distribuidos,</strong> buscando otimizar a perfomace e a segurança de dados.
-        </p> 
+        <br>
+        <p>Olá, Sou <strong>Allan Felipe</strong>, acadêmico de <strong>Ciência da Computação</strong> pela Uninter e entusiasta de computação e infraestrutura de TI.</p>
+        <br>
+        <p>Minha jornada na TI é movida pela curiosidade de entender como o software interage com hardware. Atualmente, foco meus estudos na programação, desenvolvimento de <strong>sistemas robustos em Java</strong> e na análise técnica de <strong>suporte em ambientes de missão crítica.</strong> Tenho facilidade em diagnosticar falhas em <strong>redes IP</strong> e arquiteturas de <strong>sistemas distribuídos</strong>, buscando otimizar a performance de infraestruturas de TI e a segurança de dados.</p> 
     </div>
 
-    <!-- FORMAÇÃO -->
+    <!-- ABA: FORMAÇÃO -->
     <div id="formacao" class="aba-conteudo">
         <h2>Formação Acadêmica</h2>
+        <br>
         <ul>
             <li><strong>Graduação em TI:</strong> Uninter (Ciência da Computação)</li>
-            <li><strong>Cursos Livres:</strong> Core Java 2,  sistemas distribuidos e Redes de Computadores.</li>
+            <li><strong>Cursos Livres:</strong> Core Java 2, sistemas distribuídos e Redes de Computadores.</li>
             <li><strong>Cursos Futuros:</strong> engenharia, TI ou sistema de informação</li>
             <li><strong>Idiomas:</strong> Inglês Técnico (Leitura de documentações).</li>
         </ul>
     </div>
 
-    <!-- PORTFÓLIO -->
+    <!-- ABA: PORTFÓLIO -->
     <div id="portfolio" class="aba-conteudo">
         <h2>Meu Portfólio</h2>
-        <p>No meu portfólio, eu não foquei apenas na interface. Desenvolvi uma estrutura em Javascript que simula o comportamento de um <strong> sistema distribuido,</strong> com barras
-        de carregamento que representam uma latência de uma rede IP e o tempo de resposta de um servidor em Java com um fluxo de dados do cliente ao servidor.</p>
-        <p>Projetos desenvolvidos com foco em soluções de suporte e eficiência de processamento. Aqui você encontrará aplicações que unem o código <strong>Java</strong> com a agilidade do desenvolvimento Web, 
-        sempre priorizando o monitoramento de perfomance e a facilidade de suporte técnico em TI.</p>
+        <br>
+        <p>No meu portfólio, eu não foquei apenas na interface. Desenvolvi uma estrutura em Javascript que simula o comportamento de um <strong>sistema distribuído</strong>, com barras de carregamento que representam uma latência de uma rede IP e o tempo de resposta de um servidor em Java com um fluxo de dados do cliente ao servidor.</p>
+        <br>
+        <p>Projetos desenvolvidos com foco em soluções de suporte e eficiência de processamento. Aqui você encontrará aplicações que unem o código <strong>Java</strong> com a agilidade do desenvolvimento Web, sempre priorizando o monitoramento de performance e a facilidade de suporte técnico em TI.</p>
+        <br>
         <p>Cada projeto aqui seguiu um levantamento de requisitos e testes, garantindo que o software suporte as demandas de uma rede de sistemas real.</p>
-        <p>Projetos Github:<strong> Analisador</strong> de Logs de Servidor (Java e TI)</p>
-        <a href="https://github.com/Bxxxlscsass" target="_blank">Repositório de Analisador de Logs Java e TI</a>
-        <br><br>
-        <a href="https://bxxxlscsass.github.io/Console-infraestrutura/" target="_blank">Repositório console TI logs</a> 
-        <br><br>
-        <a href="https://bxxxlscsass.github.io/monitor-hardware/" target="_blank">Repositório monitor de hardware logs</a>
-        <br><br>
-        <a href="https://bxxxlscsass.github.io/cubo3D/" target="_blank">Repositório sistema cubo logs</a>
-        <br><br>
-        <a href="https://bxxxlscsass.github.io/programmer.github.io-/" target="_blank">Repositório monitor cadastro logs</a>
-        <br><br>
-        <a href="https://bxxxlscsass.github.io/key.monitor.conectado/" target="_blank">Repositório conector teclado Logs</a>
-        <br><br>
-        <a href="https://bxxxlscsass.github.io/allan.livro.github.io/" target="_blank">Repositório de sistema de livros Logs</a>
-        <br><br>
-        <a href="https://bxxxlscsass.github.io/allan.monitor.github.io-/" target="_blank">Repositório de monitor ti Logs</a>
-        <br><br>
-        <a href="https://bxxxlscsass.github.io/allan/" target="_blank">Repositório de terminal moedas de Logs</a>
-        
-    
+        <p>Projetos Github: <strong>Analisador</strong> de Logs de Servidor (Java e TI)</p>
+        <br>
+        <a class="link-repositorio" href="https://github.com" target="_blank">🔗 Repositório de Analisador de Logs Java e TI</a><br>
+        <a class="link-repositorio" href="https://github.io" target="_blank">🔗 Repositório console TI logs</a><br>
+        <a class="link-repositorio" href="https://github.io" target="_blank">🔗 Repositório monitor de hardware logs</a><br>
+        <a class="link-repositorio" href="https://github.io" target="_blank">🔗 Repositório sistema cubo logs</a><br>
+        <a class="link-repositorio" href="https://github.io" target="_blank">🔗 Repositório monitor cadastro logs</a><br>
+        <a class="link-repositorio" href="https://github.io" target="_blank">🔗 Repositório conector teclado Logs</a><br>
+        <a class="link-repositorio" href="https://github.io" target="_blank">🔗 Repositório de sistema de livros Logs</a><br>
+        <a class="link-repositorio" href="https://github.io" target="_blank">🔗 Repositório de monitor ti Logs</a><br>
+        <a class="link-repositorio" href="https://github.io" target="_blank">🔗 Repositório de terminal moedas de Logs</a>
     </div>
 
-    <!-- CONTATO -->
+    <!-- ABA: CONTATO -->
     <div id="contato" class="aba-conteudo">
         <h2>Contato</h2>
+        <br>
         <form id="formContato">
             <input type="text" id="nome" placeholder="Nome Completo">
             <input type="email" id="email" placeholder="E-mail">
             <textarea id="msg" rows="4" placeholder="Sua mensagem..."></textarea>
-            <button type="submit">Enviar Requisição Mensagem</button>
+            <button type="submit" class="btn-enviar">Enviar Requisição Mensagem</button>
         </form>
-        <p id="feedback"></p>
+        <p id="feedback" style="margin-top: 15px; font-weight: bold;"></p>
     </div>
 
+    <!-- Scripts de Controle Lógico -->
     <script>
-        // Função para trocar (Interação em clique)
+
+        // Sintetizador Web Audio API: Tom encorpado e grave para cliques com sucesso
+        function tocarSomClique() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioCtx = new AudioContext();
+                const agora = audioCtx.currentTime;
+                const oscilador = audioCtx.createOscillator();
+                const controleVolume = audioCtx.createGain();
+
+                oscilador.type = 'triangle'; 
+                oscilador.frequency.setValueAtTime(150, agora);       
+                oscilador.frequency.linearRampToValueAtTime(110, agora + 0.08); 
+
+                controleVolume.gain.setValueAtTime(0.12, agora); 
+                controleVolume.gain.exponentialRampToValueAtTime(0.001, agora + 0.08);
+
+                oscilador.connect(controleVolume);
+                controleVolume.connect(audioCtx.destination);
+                
+                oscilador.start(agora);
+                oscilador.stop(agora + 0.08);
+            } catch (e) {
+                console.log("Áudio bloqueado ou aguardando foco da janela.");
+            }
+        }
+
+        // Sintetizador Web Audio API para Som de Erro Específico (Buzz 8-Bit)
+        function tocarSomErro() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                const audioCtx = new AudioContext();
+                const agora = audioCtx.currentTime;
+                const oscilador = audioCtx.createOscillator();
+                const controleVolume = audioCtx.createGain();
+
+                oscilador.type = 'square'; 
+                oscilador.frequency.setValueAtTime(100, agora);       
+                oscilador.frequency.setValueAtTime(70, agora + 0.08); 
+
+                controleVolume.gain.setValueAtTime(0.08, agora); 
+                controleVolume.gain.exponentialRampToValueAtTime(0.001, agora + 0.2); 
+
+                oscilador.connect(controleVolume);
+                controleVolume.connect(audioCtx.destination);
+                
+                oscilador.start(agora);
+                oscilador.stop(agora + 0.2);
+            } catch (e) {
+                console.log("Áudio bloqueado ou aguardando foco da janela.");
+            }
+        }
+
+        // Função para trocar abas e atualizar o estado visual dos botões
         function abrirAba(idAba) {
-            // Esconde todas as bordas
+            tocarSomClique(); 
+            
             const abas = document.querySelectorAll('.aba-conteudo');
             abas.forEach(aba => aba.classList.remove('ativa'));
             
-            // Mostra a borda clicada
+            const botoes = document.querySelectorAll('nav button');
+            botoes.forEach(btn => btn.classList.remove('btn-ativo'));
+            
             document.getElementById(idAba).classList.add('ativa');
-            console.log("Navegando para: " + idAba); // diagnóstico de suporte 
+            document.getElementById('btn-' + idAba).classList.add('btn-ativo');
+            
+            console.log("Navegando para: " + idAba);
         }
 
-        // Validação e Simulação de Envio de Formulario (Sistema distribuidos e suporte de TI)
+        // Validação com gatilho visual de pulso e efeitos sonoros simultâneos
         document.getElementById('formContato').addEventListener('submit', function(e) {
             e.preventDefault();
+        
+            const campos = [
+                document.getElementById('nome'),
+                document.getElementById('email'),
+                document.getElementById('msg')
+            ];
             
-            const campos = [document.getElementById('nome'), document.getElementById('email'), document.getElementById('msg')];
             let valido = true;
-
+            
             campos.forEach(campo => {
-                if (campo.value.trim() === "") {
-                    campo.classList.add('error');
+                // Reseta as classes de animação anteriores para permitir repetir o efeito
+                campo.classList.remove('error', 'campo-piscar');
+                
+                // Força o navegador a resetar o fluxo de animação do elemento (reflow)
+                void campo.offsetWidth; 
+
+                if(campo.value.trim() === "") {
+                    campo.classList.add('error', 'campo-piscar'); // Ativa o alerta e o pulso
                     valido = false;
-                } else {
-                    campo.classList.remove('error');
                 }
             });
-
+            
             const feedback = document.getElementById('feedback');
             const containerBarra = document.getElementById('container-barra');
             const barraProgresso = document.getElementById('progresso');
             
-            if (valido) {
-                feedback.style.color = "blue";
-                feedback.innerText = "Enviando dados para o servidor... ";
+            if(valido) {
+                tocarSomClique(); 
                 
-                containerBarra.style.display = "block";
+                feedback.style.color = '#0056b3';
+                feedback.innerText = "Enviando dados para o servidor... [Aguardando ACK]";
+                
+                containerBarra.style.display = 'block';
                 let largura = 0;
+                barraProgresso.style.width = '0%';
+                barraProgresso.innerText = '0%';
                 
-                //simulador de tráfego em sistema distribuidos
                 const interval = setInterval(() => {
-                    if (largura >= 100) {
-                        clearInterval(interval); //para o contador 100%
+                    largura += 2; 
+                    barraProgresso.style.width = largura + '%';
+                    barraProgresso.innerText = largura + '%';
                     
-                    feedback.style.color = "green";
-                    feedback.innerText = "Dados do sistema enviados com sucesso!";
-
-                    alert("Agradecemos o seu contato!");
-
-                    this.reset();  //limpa formulário após enviar
-                    containerBarra.style.display = "none";   //esconde a barra
-                    barraProgresso.style.width = "0%"; //reset barra para a próxima seção 
-                } else {
-                    largura += 10;  //incrementa de 10 em 10%
-                    barraProgresso.style.width = largura + "%";
-                    barraProgresso.innerText = largura + "%";
-
-                    //exemplo de lógica de suporte: mudar cor se estiver "pesado"
-                    if(largura > 70) barraProgresso.style.background = "#28a745";
-                }
-
-            }, 100);   //velocidade do simulador de rede (100ms)
-               
+                    if(largura >= 100) {
+                        clearInterval(interval); 
+                        feedback.style.color = "#10b981";
+                        feedback.innerText = "Conexão Estabelecida! Dados recebidos pelo cluster Java.";
+                    }
+                }, 30); 
             } else {
-                feedback.style.color = "red";
-                feedback.innerText = "Erro: Preencha todos os campos do sistema obrigatórios!";
+                tocarSomErro(); // Dispara o buzz sonoro de erro
+                
+                feedback.style.color = '#ef4444';
+                feedback.innerText = "Erro no buffer de entrada. Preencha todos os campos obrigatórios.";
+                containerBarra.style.display = 'none';
             }
         });
     </script>
 </body>
 </html>
+        
